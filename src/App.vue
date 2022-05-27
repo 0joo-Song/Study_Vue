@@ -1,8 +1,10 @@
 <template>
   <!-- 모달창 -->
-  <div class="black-bg">
+  <div class="black-bg" v-if="modalOpen == true">
     <div class="white-bg">
-      <h4></h4>
+      <h4>상세페이지</h4>
+      <p>상세페이지 내용</p>
+      <button @click="modalOpen = false">닫기</button>
     </div>
   </div>
 
@@ -10,34 +12,25 @@
     <a v-for="(menuNm, i) in menu" :key="i">{{ menuNm }}</a>
   </div>
 
-  <div>
-    <img src="./assets/img/room1.jpg" class="room-img">
-    <h4>{{ products[0] }}</h4>
-    <p>30 만원</p>
-    <button @click="rpCnt[0]++">허위매물신고</button> <span>신고수 : {{ rpCnt[0] }}</span>
+  <div v-for="(room, i) in oneRoom" :key="i">
+    <img :src="room.image" class="room-img">
+    <h4 @click="modalOpen = true">{{ room.title }}</h4>
+    <p> {{ room.price }}원</p>
   </div>
-   <div>
-    <img src="./assets/img/room2.jpg" class="room-img">
-    <h4>{{ products[1] }}</h4>
-    <p>40 만원</p>
-    <button @click="rpCnt[1]++">허위매물신고</button> <span>신고수 : {{ rpCnt[1] }}</span>
-  </div>
-   <div>
-    <img src="./assets/img/room3.jpg" class="room-img">
-    <h4>{{ products[2] }}</h4>
-    <p>50 만원</p>
-    <button @click="rpCnt[2]++">허위매물신고</button> <span>신고수 : {{ rpCnt[2] }}</span>
-  </div>
+   
   
 </template>
 
 <script>
+import oneRoomList from './assets/data/oneRoom.js';
 
 export default {
   name: 'App',
-  // 데이터 보관함
+  // 데이터 보관함 - state 라고 부름
   data(){
     return {
+      oneRoom : oneRoomList,
+      modalOpen : false,
       rpCnt : [0,0,0],
       products : ['역삼동원룸', '천호동원룸', '마포구원룸'],
       menu : ['Home', '아파트', '빌라/주택', '원룸'],
@@ -51,18 +44,32 @@ export default {
   components: {
   }
 }
-
-
-
 /* 데이터 바인딩 
    데이터 값   {{ 데이터 이름 }}
    속성        :속성="데이터 이름"
 */
-
-
 </script>
 
 <style>
+body {
+  margin: 0;
+}
+div {
+  box-sizing: border-box;
+}
+.black-bg {
+  width: 100%; height: 100%;
+  background-color:rgba(0, 0, 0, 0.5);
+  position: fixed; 
+  padding: 20px;
+}
+.white-bg {
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
